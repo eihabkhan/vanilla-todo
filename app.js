@@ -1,4 +1,5 @@
 const addTaskForm = document.querySelector(".add");
+const searchField = document.querySelector(".search input")
 const todoList = document.querySelector(".todos")
 
 
@@ -11,6 +12,16 @@ const generateTemplate = todo => {
     </li>
     `
     todoList.innerHTML += html
+}
+
+const filterTasks = (term) => {
+    Array.from(todoList.children)
+        .filter((task) =>   !task.textContent.toLowerCase().includes(term) )
+            .map((task) => task.classList.add("filtered") );
+
+    Array.from(todoList.children)
+    .filter((task) =>  task.textContent.toLowerCase().includes(term) )
+        .map((task) => task.classList.remove("filtered") );
 }
 
 
@@ -28,4 +39,9 @@ todoList.addEventListener("click", e => {
     if (e.target.classList.contains("delete")) {
         e.target.parentElement.remove();
     }
+});
+
+searchField.addEventListener("keyup", () => {
+    const term = searchField.value.trim().toLowerCase();
+    filterTasks(term);
 });
